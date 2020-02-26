@@ -7,7 +7,7 @@ import { fetch, read, create } from './api';
 import { transform } from "../../util/transform-entities";
 import { Todo } from "./types";
 
-export const handleTodoFetch = createApiHandler({
+const handleTodoFetch = createApiHandler({
     routine: todoActions.fetch,
     provider: fetch,
     responseMiddleware: (response) => ({ // assuming your response is array of TODOs
@@ -16,12 +16,12 @@ export const handleTodoFetch = createApiHandler({
     })
 });
 
-export const handleTodoRead = createApiHandler({
+const handleTodoRead = createApiHandler({
     routine: todoActions.read,
     provider: read
 });
 
-export const handleTodoCreate = createApiHandler({
+const handleTodoCreate = createApiHandler({
     routine: todoActions.create,
     provider: create
 });

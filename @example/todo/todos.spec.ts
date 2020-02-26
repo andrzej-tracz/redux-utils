@@ -1,6 +1,6 @@
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
-import { handleTodoFetch, handleTodoCreate } from "./sagas";
+import saga from "./sagas";
 import { todoActions } from "./actions";
 import { expectSaga } from 'redux-saga-test-plan';
 import reducer from './reducer';
@@ -16,7 +16,8 @@ describe('Todo: Sagas', () => {
         const mock = new MockAdapter(axios);
         mock.onGet('api/todo').reply(200, todoMock);
 
-        await expectSaga(handleTodoFetch, todoActions.fetch.trigger())
+        await expectSaga(saga)
+            .dispatch(todoActions.fetch.trigger())
             .withReducer(reducer)
             .hasFinalState({
                 items: {
@@ -40,7 +41,8 @@ describe('Todo: Sagas', () => {
         const mock = new MockAdapter(axios);
         mock.onGet('api/todo').reply(500, {});
 
-        await expectSaga(handleTodoFetch, todoActions.fetch.trigger())
+        await expectSaga(saga)
+            .dispatch(todoActions.fetch.trigger())
             .withReducer(reducer)
             .hasFinalState({
                 items: {},
@@ -65,7 +67,8 @@ describe('Todo: Sagas', () => {
             ...payload
         });
 
-        await expectSaga(handleTodoCreate, todoActions.create.trigger(payload))
+        await expectSaga(saga)
+            .dispatch(todoActions.create.trigger(payload))
             .withReducer(reducer)
             .hasFinalState({
                 items: {
