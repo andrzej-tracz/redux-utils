@@ -1,10 +1,13 @@
 {
-  "name": "redux-utils",
+  "name": "redux-saga-crud-utils",
   "version": "0.0.1",
   "description": "Redux utilities",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "tsc",
+    "lint": "eslint src/*.ts --fix",
+    "prepublish": "npm run build"
   },
   "author": "",
   "license": "ISC",
@@ -27,12 +30,17 @@
     "@babel/preset-react": "^7.0.0",
     "@types/jest": "^25.1.3",
     "@types/lodash": "^4.14.149",
+    "@typescript-eslint/eslint-plugin": "^2.21.0",
+    "@typescript-eslint/parser": "^2.21.0",
     "axios": "^0.19.2",
     "axios-mock-adapter": "^1.17.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^9.0.0",
     "babel-jest": "^23.4.2",
     "babel-loader": "^8.0.2",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1",
     "redux-saga-test-plan": "^4.0.0-rc.3",
     "ts-jest": "^25.2.1",
     "typescript": "3.7.*"
@@ -41,6 +49,11 @@
     "verbose": true,
     "clearMocks": true,
     "collectCoverage": false,
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/lib/"
+    ],
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.tsx?$",
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     }
