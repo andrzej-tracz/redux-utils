@@ -1,5 +1,5 @@
 import { put, call } from 'redux-saga/effects';
-import { get } from 'lodash';
+import get from 'lodash/get';
 import { Action } from '../actions/action';
 import { ResourceRoutine } from '../actions/resource-actions';
 import normalizeErrors from '../util/normalize-api-errors';
@@ -46,10 +46,6 @@ export const createApiHandler = ({
           response: error.response
         })
       );
-
-      if (!error.response) {
-        throw error;
-      }
     } finally {
       yield put(routine.fulfill(action.payload, action.meta));
     }
