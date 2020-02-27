@@ -23,11 +23,11 @@ interface ApiHandlerArgs {
 }
 
 export const createApiHandler = ({
-  routine,
-  provider,
-  responseMiddleware = defaultResponseMiddleware,
-  errorMiddleware = defaultErrorMiddleware
-}: ApiHandlerArgs) =>
+                                   routine,
+                                   provider,
+                                   responseMiddleware = defaultResponseMiddleware,
+                                   errorMiddleware = defaultErrorMiddleware
+                                 }: ApiHandlerArgs) =>
   function* apiHandler(action: Action) {
     try {
       yield put(routine.request(action.payload, action.meta));

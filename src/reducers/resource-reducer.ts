@@ -35,7 +35,7 @@ export function createResourceReducer<T>(prefix: string) {
 
   const reducer = function resourceReducer(
     state = initialState,
-    { type, payload }: Action | AnyAction
+    {type, payload}: Action | AnyAction
   ) {
     if (!type) {
       return state;
@@ -51,7 +51,7 @@ export function createResourceReducer<T>(prefix: string) {
 
       case types.FETCH.SUCCESS: {
         return produce(state, draft => {
-          const { order } = payload;
+          const {order} = payload;
           draft.order = order || ([] as number[]);
 
           Object.keys(payload.items).forEach(key => {
@@ -126,7 +126,7 @@ export function createResourceReducer<T>(prefix: string) {
 
       // Update
       case types.UPDATE.REQUEST: {
-        const { id } = payload;
+        const {id} = payload;
 
         return {
           ...state,
@@ -137,7 +137,7 @@ export function createResourceReducer<T>(prefix: string) {
       }
 
       case types.UPDATE.SUCCESS: {
-        const { id } = payload;
+        const {id} = payload;
 
         return produce(state, draft => {
           draft.didUpdate = true;
@@ -156,7 +156,7 @@ export function createResourceReducer<T>(prefix: string) {
 
       case types.PATCH_UPDATE.TRIGGER:
       case types.PATCH_UPDATE.SUCCESS: {
-        const { id, ...attributes } = payload;
+        const {id, ...attributes} = payload;
 
         return produce(state, draft => {
           if (draft.items[id]) {
@@ -170,7 +170,7 @@ export function createResourceReducer<T>(prefix: string) {
 
       // Delete
       case types.DELETE.REQUEST: {
-        const { id } = payload;
+        const {id} = payload;
 
         return produce(state, draft => {
           if (state.items[id]) {
