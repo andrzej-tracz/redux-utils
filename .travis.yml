@@ -1,6 +1,8 @@
 language: node_js
 node_js:
+  - "13.09"
   - "12.13"
+  - "10.19"
 
 script:
   - yarn
