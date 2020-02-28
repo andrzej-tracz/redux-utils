@@ -1,5 +1,5 @@
-import { createResourceReducer } from "../..";
-import { TODO_PREFIX } from "./contants";
+import { createResourceReducer } from '../..';
+import { TODO_PREFIX } from './contants';
 
 const { reducer, initialState, types } = createResourceReducer(TODO_PREFIX);
 
@@ -10,7 +10,7 @@ const todoReducer = (state = initialState, action: any) => {
       const nextState = reducer(state, action);
       // customize some actions if necessary
       return {
-        ...nextState
+        ...nextState,
       };
     }
     default:

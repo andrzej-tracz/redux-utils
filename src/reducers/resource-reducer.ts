@@ -1,7 +1,7 @@
-import { createResourceActionTypes } from '../actions/resource-actions';
-import { Action } from '../actions/action';
 import { AnyAction } from 'redux';
 import produce from 'immer';
+import { createResourceActionTypes } from '../actions/resource-actions';
+import { Action } from '../actions/action';
 
 export interface ResourceState<T> {
   items: {
@@ -35,7 +35,7 @@ export function createResourceReducer<T>(prefix: string) {
 
   const reducer = function resourceReducer(
     state = initialState,
-    {type, payload}: Action | AnyAction
+    { type, payload }: Action | AnyAction,
   ) {
     if (!type) {
       return state;
@@ -44,20 +44,20 @@ export function createResourceReducer<T>(prefix: string) {
     switch (type) {
       // Fetch
       case types.FETCH.REQUEST: {
-        return produce(state, draft => {
+        return produce(state, (draft) => {
           draft.isFetching = true;
         });
       }
 
       case types.FETCH.SUCCESS: {
-        return produce(state, draft => {
-          const {order} = payload;
+        return produce(state, (draft) => {
+          const { order } = payload;
           draft.order = order || ([] as number[]);
 
-          Object.keys(payload.items).forEach(key => {
+          Object.keys(payload.items).forEach((key) => {
             draft.items[key] = {
               ...state.items[key],
-              ...payload.items[key]
+              ...payload.items[key],
             };
           });
         });
@@ -66,7 +66,7 @@ export function createResourceReducer<T>(prefix: string) {
       case types.FETCH.FULFILL: {
         return {
           ...state,
-          isFetching: false
+          isFetching: false,
         };
       }
 
@@ -85,9 +85,9 @@ export function createResourceReducer<T>(prefix: string) {
           didCreate: true,
           items: {
             ...state.items,
-            [payload.id]: payload
+            [payload.id]: payload,
           },
-          order: [...state.order, payload.id]
+          order: [...state.order, payload.id],
         };
       }
 
@@ -101,45 +101,45 @@ export function createResourceReducer<T>(prefix: string) {
         return {
           ...state,
           didCreate: false,
-          isSubmitting: false
+          isSubmitting: false,
         };
       }
 
       // Read
       case types.READ.REQUEST: {
-        return produce(state, draft => {
+        return produce(state, (draft) => {
           draft.pendingItemId = payload.id;
         });
       }
 
       case types.READ.SUCCESS: {
-        return produce(state, draft => {
+        return produce(state, (draft) => {
           draft.items[payload.id] = payload;
         });
       }
 
       case types.READ.FULFILL: {
-        return produce(state, draft => {
+        return produce(state, (draft) => {
           draft.pendingItemId = null;
         });
       }
 
       // Update
       case types.UPDATE.REQUEST: {
-        const {id} = payload;
+        const { id } = payload;
 
         return {
           ...state,
           didUpdate: false,
           isSubmitting: true,
-          pendingItemId: id
+          pendingItemId: id,
         };
       }
 
       case types.UPDATE.SUCCESS: {
-        const {id} = payload;
+        const { id } = payload;
 
-        return produce(state, draft => {
+        return produce(state, (draft) => {
           draft.didUpdate = true;
           draft.items[id] = Object.assign(draft.items[id], payload);
         });
@@ -150,19 +150,19 @@ export function createResourceReducer<T>(prefix: string) {
           ...state,
           isSubmitting: false,
           didUpdate: false,
-          pendingItemId: null
+          pendingItemId: null,
         };
       }
 
       case types.PATCH_UPDATE.TRIGGER:
       case types.PATCH_UPDATE.SUCCESS: {
-        const {id, ...attributes} = payload;
+        const { id, ...attributes } = payload;
 
-        return produce(state, draft => {
+        return produce(state, (draft) => {
           if (draft.items[id]) {
             draft.items[id] = {
               ...draft.items[id],
-              ...attributes
+              ...attributes,
             };
           }
         });
@@ -170,14 +170,14 @@ export function createResourceReducer<T>(prefix: string) {
 
       // Delete
       case types.DELETE.REQUEST: {
-        const {id} = payload;
+        const { id } = payload;
 
-        return produce(state, draft => {
+        return produce(state, (draft) => {
           if (state.items[id]) {
             delete draft.items[id];
           }
 
-          draft.order = draft.order.filter(itemId => itemId !== id);
+          draft.order = draft.order.filter((itemId) => itemId !== id);
         });
       }
 
@@ -189,6 +189,6 @@ export function createResourceReducer<T>(prefix: string) {
   return {
     reducer,
     types,
-    initialState
-  }
+    initialState,
+  };
 }

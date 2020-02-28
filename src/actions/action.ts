@@ -12,6 +12,6 @@ export function createAction<P, M = any>(type: string) {
   return (payload: P = {} as P, meta: M = {} as M): Action => ({
     type: createType(type),
     payload,
-    meta
+    meta,
   });
 }

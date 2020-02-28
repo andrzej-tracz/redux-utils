@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { put, call } from 'redux-saga/effects';
 import get from 'lodash/get';
 import { Action } from '../actions/action';
@@ -23,30 +24,29 @@ interface ApiHandlerArgs {
 }
 
 export const createApiHandler = ({
-                                   routine,
-                                   provider,
-                                   responseMiddleware = defaultResponseMiddleware,
-                                   errorMiddleware = defaultErrorMiddleware
-                                 }: ApiHandlerArgs) =>
-  function* apiHandler(action: Action) {
-    try {
-      yield put(routine.request(action.payload, action.meta));
-      const response = yield call(provider, action.payload);
-      const filtered = yield call(responseMiddleware, response, action.payload);
+  routine,
+  provider,
+  responseMiddleware = defaultResponseMiddleware,
+  errorMiddleware = defaultErrorMiddleware,
+}: ApiHandlerArgs) => function* apiHandler(action: Action) {
+  try {
+    yield put(routine.request(action.payload, action.meta));
+    const response = yield call(provider, action.payload);
+    const filtered = yield call(responseMiddleware, response, action.payload);
 
-      yield put(routine.success(filtered, action.payload));
-    } catch (error) {
-      const errors = get(error, 'response.data.errors', {});
-      const filtered = yield call(errorMiddleware, errors, action.payload);
+    yield put(routine.success(filtered, action.payload));
+  } catch (error) {
+    const errors = get(error, 'response.data.errors', {});
+    const filtered = yield call(errorMiddleware, errors, action.payload);
 
-      yield put(
-        routine.failure(filtered, {
-          error,
-          action,
-          response: error.response
-        })
-      );
-    } finally {
-      yield put(routine.fulfill(action.payload, action.meta));
-    }
-  };
+    yield put(
+      routine.failure(filtered, {
+        error,
+        action,
+        response: error.response,
+      }),
+    );
+  } finally {
+    yield put(routine.fulfill(action.payload, action.meta));
+  }
+};

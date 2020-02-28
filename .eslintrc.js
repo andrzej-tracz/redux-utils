@@ -2,11 +2,13 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
+    node: true,
+    jest: true
   },
   extends: [
     'airbnb-base',
   ],
-  "settings": {
+  settings: {
     "import/resolver": {
       "node": {
         "extensions": [
@@ -31,6 +33,10 @@ module.exports = {
     '@typescript-eslint',
   ],
   rules: {
-    "import/extensions": 0
+    "import/extensions": 0,
+    "quotes": [2, 'single', { "avoidEscape": true }],
+    "import/prefer-default-export": 0,
+    "no-param-reassign": 0,
+    "no-unused-vars": 0,
   },
 };
