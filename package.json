@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "immer": "^8.0.1",
+    "immer": "^9.0.6",
     "jest": "^25.1.0",
     "jest-mock-axios": "^3.2.0",
     "lodash": "^4.17.15",
